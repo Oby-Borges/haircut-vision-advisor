@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "haircut-vision-advisor"
+version = "0.1.0"
+description = "Explainable face-shape analysis and hairstyle recommendations for a robotic-haircut competition demo"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Haircut Vision Advisor contributors" }]
+dependencies = [
+  "jsonschema>=4.21,<5",
+  "mediapipe>=0.10.14,<0.11",
+  "numpy>=1.26,<3",
+  "opencv-python-headless>=4.9,<5",
+  "Pillow>=10.2,<12",
+  "streamlit>=1.36,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2,<9",
+  "pytest-cov>=5,<7",
+  "ruff>=0.6,<1",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
