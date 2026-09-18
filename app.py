@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 import hashlib
-import io
 import json
 import sys
 from pathlib import Path
 
 import streamlit as st
-from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src"))
@@ -25,7 +23,11 @@ from haircut_vision.robot_contract import (  # noqa: E402
     build_robot_output,
 )
 from haircut_vision.types import Preferences  # noqa: E402
-from haircut_vision.vision import VisionUnavailableError, detect_landmarks  # noqa: E402
+from haircut_vision.vision import (  # noqa: E402
+    VisionUnavailableError,
+    decode_image_bytes,
+    detect_landmarks,
+)
 
 st.set_page_config(page_title="Haircut Vision Advisor", page_icon="✂️", layout="wide")
 st.markdown(
@@ -75,9 +77,11 @@ def catalog():
 
 def image_from_input():
     st.subheader("1 · Choose an image")
+    default_index = 2 if st.query_params.get("demo") == "1" else 0
     mode = st.radio(
         "Image source",
         ["Camera snapshot", "Upload image", "Demo fixture"],
+        index=default_index,
         horizontal=True,
         help="Images are processed in memory; this app does not intentionally save them.",
     )
@@ -94,7 +98,7 @@ def image_from_input():
     if source is None:
         return None, None, False
     raw = source.getvalue()
-    return Image.open(io.BytesIO(raw)).convert("RGB"), hashlib.sha256(raw).hexdigest(), False
+    return decode_image_bytes(raw), hashlib.sha256(raw).hexdigest(), False
 
 
 image, image_key, is_demo = image_from_input()
@@ -104,11 +108,11 @@ if image is None:
 
 left, right = st.columns([1, 1], gap="large")
 with left:
-    st.image(image, caption="Input image", use_container_width=True)
+    st.image(image, caption="Input image", width="stretch")
 with right:
     st.subheader("2 · Analyze proportions")
     st.write("A near-frontal pose works best. No identity recognition is performed.")
-    analyze = st.button("Analyze face", type="primary", use_container_width=True)
+    analyze = st.button("Analyze face", type="primary", width="stretch")
 
 if analyze or st.session_state.get("image_key") == image_key:
     try:
@@ -176,7 +180,7 @@ with st.form("preferences"):
         ["any", "classic", "modern", "natural", "relaxed", "statement"],
         format_func=str.title,
     )
-    rank_now = st.form_submit_button("Rank styles", type="primary", use_container_width=True)
+    rank_now = st.form_submit_button("Rank styles", type="primary", width="stretch")
 
 preferences = Preferences(desired_length, maintenance, fade, texture, category)
 recommendations = rank_hairstyles(catalog(), shape_result, preferences)
@@ -249,7 +253,7 @@ with preview_col:
         x_offset=x_offset,
         y_offset=y_offset,
     )
-    st.image(preview, caption=f"Illustrative preview: {selected.name}", use_container_width=True)
+    st.image(preview, caption=f"Illustrative preview: {selected.name}", width="stretch")
 
 st.divider()
 st.subheader("6 · Export a reviewed software contract")
@@ -269,14 +273,14 @@ if confirmed:
         json.dumps(payload, indent=2),
         file_name=f"{selected.id}_proposal.json",
         mime="application/json",
-        use_container_width=True,
+        width="stretch",
     )
     download_columns[1].download_button(
         "Download JSON Schema",
         json.dumps(ROBOT_OUTPUT_SCHEMA, indent=2),
         file_name="haircut_selection_schema.json",
         mime="application/schema+json",
-        use_container_width=True,
+        width="stretch",
     )
 
 st.markdown(

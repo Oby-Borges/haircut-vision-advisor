@@ -17,6 +17,25 @@ def configured_model_path() -> Path:
     return Path(os.environ.get("FACE_LANDMARKER_MODEL", DEFAULT_MODEL_PATH)).expanduser()
 
 
+def decode_image_bytes(data: bytes):
+    """Decode camera/upload bytes with OpenCV and return an RGB Pillow image."""
+
+    try:
+        import cv2
+        import numpy as np
+        from PIL import Image
+    except ImportError as exc:
+        raise VisionUnavailableError(
+            "OpenCV, NumPy, and Pillow are required to decode camera and upload images."
+        ) from exc
+    encoded = np.frombuffer(data, dtype=np.uint8)
+    bgr = cv2.imdecode(encoded, cv2.IMREAD_COLOR)
+    if bgr is None:
+        raise ValueError("The uploaded file could not be decoded as an image.")
+    rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+    return Image.fromarray(rgb)
+
+
 def detect_landmarks(
     pil_image: Any, model_path: str | Path | None = None
 ) -> list[tuple[float, float, float]]:

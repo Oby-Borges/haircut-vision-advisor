@@ -10,6 +10,8 @@ contract for a separate robotics subsystem.
 > only. A physical haircut system needs independent engineering controls,
 > professional review, fail-safe hardware, and explicit user confirmation.
 
+![Competition demo using an original synthetic portrait](docs/demo-preview.png)
+
 ## What the MVP does
 
 - Accepts a browser camera snapshot or uploaded JPG/PNG.
@@ -44,7 +46,8 @@ existing compatible model path.
 The browser UI opens at `http://localhost:8501`. If camera permissions are not
 available, choose **Upload image**. For the quickest no-photo walkthrough,
 choose **Demo fixture**; it uses synthetic landmarks and never pretends that a
-real face was analyzed.
+real face was analyzed. Competition presenters can launch directly into that
+mode at `http://localhost:8501/?demo=1`.
 
 ## Test and quality commands
 
@@ -73,4 +76,3 @@ docs/DEVELOPMENT_LOG.md
 
 See [Architecture](docs/ARCHITECTURE.md) for data flow and
 [Safety and limitations](docs/SAFETY_AND_LIMITATIONS.md) before any integration.
-

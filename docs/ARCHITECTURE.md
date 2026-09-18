@@ -6,6 +6,9 @@
 camera snapshot / uploaded image / explicit demo fixture
                          |
                          v
+              OpenCV decode + RGB normalization
+                         |
+                         v
            MediaPipe Face Landmarker
                          |
                          v
@@ -34,9 +37,9 @@ camera snapshot / uploaded image / explicit demo fixture
 
 ## Components
 
-- `vision.py` owns MediaPipe initialization and converts its output to a plain
-  `numpy` array. MediaPipe is imported lazily so catalog and heuristic tests do
-  not need the native runtime.
+- `vision.py` decodes camera/upload bytes with OpenCV, owns MediaPipe
+  initialization, and converts its output to a plain tuple list. Native vision
+  dependencies are imported lazily so catalog and heuristic tests remain fast.
 - `measurements.py` contains landmark indices and rotation-tolerant Euclidean
   measurements normalized by cheekbone width.
 - `face_shape.py` scores all six labels rather than hiding the decision behind
@@ -76,4 +79,3 @@ the same `render_preview(image, landmarks, style, ...) -> PIL.Image` interface.
 Add or tune catalog entries without changing the ranking code. Future research
 could calibrate heuristics on consented, diverse data, but the competition MVP
 does not collect or train on faces.
-

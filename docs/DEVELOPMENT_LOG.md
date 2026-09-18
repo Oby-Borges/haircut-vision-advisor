@@ -22,6 +22,29 @@
 
 ## Validation record
 
-This section is updated after each local validation pass with exact commands,
-results, and any fixes.
+### Python 3.12 full environment
 
+- Provisioned a project-local Python 3.12.14 environment because the host's
+  Python 3.14 is outside the MediaPipe support range selected by the project.
+- Installed the complete editable project, including MediaPipe 0.10.35 and
+  OpenCV.
+- Downloaded Google's official 3,758,596-byte Face Landmarker task model. The
+  observed SHA-256 was
+  `64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff`.
+- Exercised the real adapter on a bundled local test portrait: 478 landmarks
+  returned, with a low-confidence/approximate shape result as expected.
+- Ran `pytest --cov=haircut_vision --cov-report=term-missing`: 21 passed, 84%
+  line coverage. The model smoke test is recorded separately and intentionally
+  does not commit the third-party portrait.
+- Ran `ruff check .`: all checks passed.
+
+### Browser walkthrough and fixes
+
+- Launched Streamlit and completed the demo-fixture flow through measurement,
+  ranking, preview, explicit selection, JSON generation, and schema download.
+- The first visual pass exposed light-background/dark-theme contrast problems;
+  added an explicit light theme.
+- Added `?demo=1` as a presentation-safe path that bypasses camera permission
+  prompts while clearly labeling the synthetic input.
+- Replaced Streamlit's removed `use_container_width` argument with the current
+  `width="stretch"` API after the server emitted deprecation warnings.
