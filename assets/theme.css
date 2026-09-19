@@ -1,0 +1,29 @@
+<style>
+.stApp { background:#f7f8f2; color:#183e33; }
+.stMainBlockContainer { padding-top:2rem; max-width:1440px; }
+h1,h2,h3 { letter-spacing:-.045em !important; }
+h1 { font-size:clamp(2.3rem,4.1vw,4.4rem) !important; font-weight:800 !important; }
+h3 { font-size:1.35rem !important; }
+[data-testid="stSidebar"] { background:#edf0e5; border-right:1px solid #d8dfd2; }
+.brand { font-size:35px; font-weight:800; letter-spacing:-2px; margin:10px 0 8px; }
+.brand span { color:#718c48; } .brand i { font-size:12px; font-weight:500; letter-spacing:0; }
+.topline { font-size:11px; letter-spacing:2px; padding-bottom:22px; margin-bottom:26px; border-bottom:1px solid #d4ddce; }
+.topline span { float:right; color:#667e65; }
+.kicker { font-size:11px; letter-spacing:2px; font-weight:700; color:#5b7552; margin-top:8px; }
+.editorial { position:relative; overflow:hidden; background:#203f34; color:#eff6df; border-radius:22px;
+ padding:34px; min-height:320px; margin:16px 0 20px; }
+.editorial h2 { color:#eff6df; font-size:2rem; line-height:1.25; margin-top:24px; }
+.editorial > span { font-size:10px; letter-spacing:2px; }
+.editorial p { color:#bbcdb8; font-size:14px; line-height:1.7; }
+.orb { float:right; width:72px; height:72px; border-radius:50%; background:#d6ee8c;
+ color:#244638; font-size:45px; text-align:center; transform:rotate(-25deg); }
+[data-testid="stMetric"] { background:#edf1e6; padding:20px; border-radius:16px; }
+[data-testid="stMetricValue"] { color:#224d3e; }
+[data-testid="stVerticalBlockBorderWrapper"]>div { border-color:#d8e0d1 !important; border-radius:18px !important; }
+[data-testid="stImage"] img { border-radius:16px; }
+.stButton>button, .stDownloadButton>button { border-radius:10px; min-height:44px; font-weight:600; }
+.stButton>button[kind="primary"] { background:#284f3e; border-color:#284f3e; color:#fff; }
+[data-testid="stSidebar"] [role="radiogroup"] { gap:14px; }
+header[data-testid="stHeader"] { background:transparent; }
+@media(max-width:700px) { .topline span { display:none; } .editorial { min-height:230px; } }
+</style>

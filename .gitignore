@@ -11,5 +11,6 @@ htmlcov/
 .streamlit/secrets.toml
 models/*.task
 outputs/
+*.log
 .DS_Store
 Thumbs.db

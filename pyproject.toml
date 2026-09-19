@@ -7,7 +7,7 @@ name = "haircut-vision-advisor"
 version = "0.1.0"
 description = "Explainable face-shape analysis and hairstyle recommendations for a robotic-haircut competition demo"
 readme = "README.md"
-requires-python = ">=3.10,<3.13"
+requires-python = ">=3.11,<3.13"
 license = { text = "MIT" }
 authors = [{ name = "Haircut Vision Advisor contributors" }]
 dependencies = [
@@ -16,7 +16,7 @@ dependencies = [
   "numpy>=1.26,<3",
   "opencv-contrib-python>=4.9,<6",
   "Pillow>=10.2,<12",
-  "streamlit>=1.36,<2",
+  "streamlit>=1.64,<2",
 ]
 
 [project.optional-dependencies]
