@@ -29,6 +29,12 @@
   results, silhouette, explicit approval and Integration desk. Found Windows'
   default text encoding garbling source-document em dashes; specified UTF-8
   when reading documents and added an assertion for the rendered headings.
+- Re-ran the real MediaPipe capture pipeline on Matplotlib's installed local
+  Grace Hopper sample (not copied into this repository): 478 landmarks on a
+  512×600 image, no capture-quality issues, aspect-correct length ratio 1.1211.
+  Optional library font-cache/telemetry warnings did not prevent inference.
+  Live webcam permissions and a real person's complete four-angle session were
+  not exercised. Local Streamlit health endpoint returned `ok`.
 
 ## 2026-09-18 — Scope and safety boundary
 
