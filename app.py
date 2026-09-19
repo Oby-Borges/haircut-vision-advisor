@@ -29,6 +29,7 @@ from haircut_vision.session import (  # noqa: E402
     scan_status,
     update_preferences,
 )
+from haircut_vision.style_images import style_image_path  # noqa: E402
 from haircut_vision.types import Preferences  # noqa: E402
 
 st.set_page_config(page_title="TrimSync · Your next cut", page_icon="✂", layout="wide")
@@ -322,8 +323,17 @@ elif page == "03  Style studio":
             "which go to the next team; they do not provide 3D measurements or change scores."
         )
         st.write(list(shape.reasons))
+    available_references = sum(style_image_path(rec.style.id) is not None for rec in ranked)
+    if available_references < len(ranked):
+        st.warning(
+            f"{available_references} of {len(ranked)} reference images are available locally. "
+            "The remaining image assets still need to be saved. Recommendations remain usable."
+        )
     for col, rec in zip(st.columns(3), ranked[:3], strict=True):
         with col, st.container(border=True):
+            reference = style_image_path(rec.style.id)
+            if reference:
+                st.image(str(reference), caption=rec.style.name, width="stretch")
             st.caption(f"STYLE FIT · {rec.score:.0f} / 100")
             st.subheader(rec.style.name)
             st.write(rec.style.description)
@@ -331,6 +341,19 @@ elif page == "03  Style studio":
                 st.caption(f"✓ {reason}")
             with st.expander("Score breakdown"):
                 st.json(rec.breakdown)
+    st.caption(
+        "Hairstyle reference images generated with Google Nano Banana 2. "
+        "Fictional models; examples of styles, not predictions of your appearance."
+    )
+    with st.expander(f"Explore all {len(ranked)} hairstyle references"):
+        for start in range(0, len(ranked), 3):
+            for col, rec in zip(st.columns(3), ranked[start : start + 3], strict=False):
+                with col:
+                    reference = style_image_path(rec.style.id)
+                    if reference:
+                        st.image(str(reference), caption=rec.style.name, width="stretch")
+                    st.markdown(f"**{rec.style.name}**")
+                    st.caption(rec.style.description)
     by_id = {r.style.id: r.style for r in ranked}
     selected_id = st.selectbox(
         "Choose any style",
@@ -339,9 +362,17 @@ elif page == "03  Style studio":
         key="selected_style",
     )
     style = by_id[selected_id]
+    reference = style_image_path(style.id)
+    if reference:
+        with st.expander(f"Selected style reference · {style.name}", expanded=True):
+            st.image(str(reference), width=420)
+            st.caption(
+                "Nano Banana 2 generated reference. Your photo-based silhouette below is a "
+                "separate illustrative preview; neither specifies a robot cutting path."
+            )
     controls, picture = st.columns([1, 1.6], gap="large")
     with controls:
-        st.subheader("Make the preview yours")
+        st.subheader("Your photo-based preview")
         st.caption(
             "Illustrative front overlay. Existing hair is not removed; "
             "this is not a calibrated AR map."

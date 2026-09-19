@@ -50,6 +50,10 @@ session -> front / left / right / rear photos (optional crown)
   catalog is data in `assets/hairstyles.json`, not hard-coded UI logic.
 - `preview.py` draws original, deliberately stylized silhouettes aligned to the
   detected facial bounds. It does not synthesize realistic hair.
+- `style_images.py` resolves locally stored Nano Banana 2 catalog portraits.
+  These illustrate the style on fictional models, separately from the user's
+  silhouette overlay. They do not influence face-shape/ranking or robot output.
+  Provider and prompts are recorded in `assets/hairstyle_image_prompts.json`.
 - `session.py` gates four-view completeness and tracks preferences, plan IDs,
   and explicit approval. `handoff.py` validates the draft app JSON schema and
   cross-record identifiers. `robot_contract.py` retains the legacy v1

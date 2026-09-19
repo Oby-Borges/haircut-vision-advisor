@@ -35,6 +35,12 @@ should prefer local processing and close the browser session after use.
 
 ## Preview limitations
 
+Nano Banana 2 reference portraits are AI-generated examples on fictional adults,
+not photographs of customers or predictions on the scanned person. No scan
+photos were provided to Gemini when producing the catalog. The runtime app
+loads those images locally; it does not generate personalized Gemini images.
+The example model's characteristics must not be used to restrict style choice.
+
 The overlay is an illustrative silhouette, not a photorealistic prediction. It
 does not model current hair, curls, density, scalp, hairline, growth direction,
 color blending, styling products, or how a cut will grow out. Replace it only

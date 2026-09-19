@@ -26,6 +26,9 @@ preferences → Style studio → Integration**.
 - Ranks 15 configurable styles using face shape and user preferences.
 - Explains every recommendation score.
 - Draws an original programmatic silhouette preview—no third-party hair art.
+- Shows Nano Banana 2 generated hairstyle reference portraits on recommendations,
+  in the all-styles gallery, and alongside the selected style. These are fictional
+  models, separate from the photo-based silhouette preview.
 - Exports a schema-validated, non-executable TrimSync draft after explicit
   approval. Scan, preview, approval, and planning placeholder share identifiers.
 - Incorporates the supplied Integration Team's demo runbook, manual readiness
@@ -85,6 +88,8 @@ MediaPipe model file.
 app.py                       Streamlit competition UI
 assets/hairstyles.json       Configurable 15-style catalog
 assets/theme.css             TrimSync visual theme
+assets/hairstyle_images/      Generated local reference portraits for all 15 styles
+assets/hairstyle_image_prompts.json  Provider and reproducible prompt set
 models/                      Local model location (binary is gitignored)
 scripts/download_face_landmarker.py
 src/haircut_vision/          Vision, heuristics, ranking, preview, contract

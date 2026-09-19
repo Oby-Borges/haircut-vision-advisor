@@ -1,5 +1,30 @@
 # Development log
 
+## 2026-09-19 — Nano Banana hairstyle reference library
+
+- Used the user's requested Google Nano Banana 2 through the signed-in Gemini
+  Images browser interface. Generated one square 1024×1024 portrait for each of
+  the 15 catalog styles; no scanned/user face photos were uploaded.
+- Kept framing, studio lighting, ivory background and green clothing consistent.
+  Inspected every downloaded image for the intended hairstyle and complete hair
+  framing. Stored individual JPEGs locally, not remote image links.
+- Browser downloads initially remained pending because Edge asked Open/Save As.
+  The user completed the save choices; no browser security settings were changed.
+- Added images to top recommendation cards, a full ranked gallery, and selected
+  style references. Retained the independent photo-based silhouette and unchanged
+  approval/robot safety contract. Added clear fictional/AI-generated labeling.
+- Recorded exact prompts and provider in `assets/hairstyle_image_prompts.json`;
+  added asset documentation, catalog completeness checks, safe path handling,
+  and rendered image assertions in the app walkthrough.
+- A test initially queried Streamlit's protobuf field `imgs` as the element
+  type; corrected it to `image` after inspecting the actual AppTest tree.
+- Validation: 36 tests passed, 86% package line coverage, Ruff passed, and
+  `git diff --check` passed. The live Edge demo rendered all 15 gallery images,
+  three recommendation images, the selected reference, and the photo overlay
+  with successful image loads and nonzero dimensions. Browser screenshot capture
+  timed out; individual source images were visually reviewed locally instead.
+- Left the local Streamlit app running and the full reference gallery open.
+
 ## 2026-09-19 — TrimSync integration workspace and four-view workflow
 
 - Reviewed the supplied Integration Team files plus shared API, App Team
