@@ -1,5 +1,35 @@
 # Development log
 
+## 2026-09-19 — TrimSync integration workspace and four-view workflow
+
+- Reviewed the supplied Integration Team files plus shared API, App Team
+  questionnaire/output/mapping, and Vision output notes. Imported five reference
+  documents without modifying the originals in Documents/VTHacks.
+- Replaced the single-page demo with Capture, Preferences, Style studio, and
+  Integration screens and a cream/forest-green responsive visual theme.
+- Added four distinct reviewed photo slots (front/left/right/rear), optional
+  crown, camera/upload choices, brightness/detail/size checks, duplicate checks,
+  and original synthetic diagrams. Front uses real MediaPipe for real photos;
+  other orientations require manual confirmation. No fictitious 3D model.
+- Fixed rectangular-image ratio distortion by converting normalized landmarks
+  to pixel coordinates before measurement; added a regression test.
+- Added plan fingerprints, approval invalidation and schema-validated draft
+  handoffs. Keep-top exports null; head-frame and mapping readiness remain false;
+  planning remains non-executable. Legacy descriptive contract API retained.
+- Turned team readiness checks into plan-scoped manual reports, added issue
+  downloads and source runbook/ownership/API tabs. No controller requests.
+- Preserved form and preview widget state across navigation; tested that an
+  approved unchanged plan stays approved and changes invalidate it.
+- Validation: 30 tests passed; 86% package line coverage; Ruff passed.
+  A new rectangular fixture initially failed the quality gate because it was
+  blank; replaced it with deterministic image detail for the geometry test.
+- Browser review found CSS for editorial labels also shrinking nested heading
+  text; narrowed the selector to direct children.
+- Browser walkthrough completed the four-view demo, saved preferences, ranked
+  results, silhouette, explicit approval and Integration desk. Found Windows'
+  default text encoding garbling source-document em dashes; specified UTF-8
+  when reading documents and added an assertion for the rendered headings.
+
 ## 2026-09-18 — Scope and safety boundary
 
 - Established an MVP pipeline from browser image capture to explainable

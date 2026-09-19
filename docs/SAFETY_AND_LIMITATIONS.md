@@ -26,7 +26,9 @@ of the ranking.
 
 ## Privacy
 
-The app processes one image in memory and does not intentionally persist it.
+The app processes four images (optionally five) in server session memory and
+does not intentionally persist them. Exported metadata excludes the photos and
+landmarks. User-entered notes or issue logs can still contain personal data.
 Deployments must still document their hosting, logs, retention, analytics, and
 network behavior. Do not collect faces without informed consent. Demo operators
 should prefer local processing and close the browser session after use.
@@ -51,3 +53,19 @@ limits, human supervision, informed consent, and applicable regulatory and
 professional review. This repository does not claim to make robotic haircutting
 safe.
 
+## Four-view and integration boundaries
+
+Four photos do not establish a calibrated 3D head model. Side/rear orientation
+and same-subject claims rely on operator confirmation. Basic brightness and
+sharpness tests cannot detect all blur, occlusion, poor framing, or misleading
+images. Only the front view drives automatic face-shape scoring; other views
+support human review. No hair density, scalp condition, health, or identity
+inference is made. Millimeter values are requested lengths, not vision-derived
+physical measurements.
+
+The UI separates synthetic demo captures from real sessions, reports no live
+tracking/controller connection, and always marks the draft non-executable.
+Approval is tied to the current plan and invalidates when its inputs change.
+It approves a style proposal only, not physical robot operation. Manual
+readiness checkboxes and the supplied runbook do not implement hardware tests,
+safety interlocks, or a validated robot path. See [Integration](INTEGRATION.md).

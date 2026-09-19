@@ -3,16 +3,16 @@
 ## Pipeline
 
 ```text
-camera snapshot / uploaded image / explicit demo fixture
+session -> front / left / right / rear photos (optional crown)
                          |
                          v
-              OpenCV decode + RGB normalization
+           guarded decode + EXIF + quality checks + manual view confirmation
                          |
                          v
-           MediaPipe Face Landmarker
+           front MediaPipe Face Landmarker
                          |
                          v
-       selected 2D normalized landmarks
+       selected 2D landmarks converted to pixel coordinates
                          |
                          v
    face length + forehead/cheek/jaw widths
@@ -29,15 +29,16 @@ camera snapshot / uploaded image / explicit demo fixture
         weighted catalog scoring   programmatic silhouette
                          |
                          v
-               user selects a style
+               user selects a style -> plan ID -> explicit approval
                          |
                          v
-     validated, descriptive robot-output JSON
+     validated, non-executable TrimSync draft JSON
 ```
 
 ## Components
 
-- `vision.py` decodes camera/upload bytes with OpenCV, owns MediaPipe
+- `scan.py` decodes and normalizes images, checks size/lighting/detail, and
+  creates reviewable capture records with pixel digests. `vision.py` owns MediaPipe
   initialization, and converts its output to a plain tuple list. Native vision
   dependencies are imported lazily so catalog and heuristic tests remain fast.
 - `measurements.py` contains landmark indices and rotation-tolerant Euclidean
@@ -49,13 +50,17 @@ camera snapshot / uploaded image / explicit demo fixture
   catalog is data in `assets/hairstyles.json`, not hard-coded UI logic.
 - `preview.py` draws original, deliberately stylized silhouettes aligned to the
   detected facial bounds. It does not synthesize realistic hair.
-- `robot_contract.py` creates and validates a JSON document. There is no socket,
+- `session.py` gates four-view completeness and tracks preferences, plan IDs,
+  and explicit approval. `handoff.py` validates the draft app JSON schema and
+  cross-record identifiers. `robot_contract.py` retains the legacy v1
+  descriptive contract for existing consumers. There is no socket,
   serial port, ROS publisher, motor driver, trajectory, or cutting code.
 
 ## Coordinate and measurement choices
 
-The task returns normalized `(x, y, z)` landmarks. The MVP uses 2D Euclidean
-distance for head-on portraits and divides dimensions by cheekbone width. This
+The task returns normalized `(x, y, z)` landmarks. The capture pipeline multiplies
+x by image width and y by image height before measuring 2D Euclidean distances
+for head-on portraits, then divides dimensions by cheekbone width. This
 makes ratios independent of image resolution. Strong head rotation invalidates
 the geometric assumptions; the UI reports an approximate yaw asymmetry check
 and asks the user for a centered retake when it is large.
@@ -71,6 +76,26 @@ Selected MediaPipe landmark indices:
 | nose center / facial symmetry | 1, 234, 454 |
 
 These anchors are pragmatic approximations, not anatomical measurements.
+
+## Multi-view state and approval
+
+The four required views are front, left, right, rear. Crown is optional.
+Side/rear/crown orientation and same-person status require manual confirmation;
+there is no automatic orientation or identity verification. Identical decoded
+photos cannot fill multiple slots. Transformed duplicates are not detected.
+Other views support review notes, not automatic 3D reconstruction or scores.
+
+Plan IDs hash the session, style, saved preferences, capture digests, and preview
+settings. Identical inputs preserve approval across navigation. A removed or
+replaced photo, changed saved preferences, style, or preview clears approval.
+The preview, planning placeholder and approval share one plan ID. The planning
+placeholder is always awaiting Vision/IK and non-executable.
+
+The Integration desk exposes the supplied team's checklist, runbook, handoff
+matrix, issue template, and shared contract. Readiness boxes are manual reports
+scoped to plan ID (or session before a plan), not hardware verification.
+Session data is held in memory, not persisted to a database. Downloaded handoffs
+do not contain photos or landmarks. See [Integration](INTEGRATION.md).
 
 ## Extension points
 
